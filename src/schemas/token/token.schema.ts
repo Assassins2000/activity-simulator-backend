@@ -6,12 +6,12 @@ import { Document } from 'mongoose';
 export type TokenDocument = Token & Document;
 
 @Schema()
-export default class Token {
+export class Token {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   user!: User;
 
   @Prop({ required: true })
-  token!: string;
+  key!: string;
 }
 
 export const TokenSchema = SchemaFactory.createForClass(Token);

@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from '../auth/providers';
-import { AuthProvider } from '@app/schemas/user/providers';
-import { TokenProvider } from '@app/schemas/token/providers/token.provider';
+import { SignInDataProvider } from '../auth/providers/data/signin/signin.data.provider';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '@app/schemas/user/user.schema';
-import Token, { TokenSchema } from '@app/schemas/token/token.schema';
+import { Token, TokenSchema } from '@app/schemas/token/token.schema';
 import { PassportModule } from '@nestjs/passport';
 
 @Module({
@@ -17,6 +16,6 @@ import { PassportModule } from '@nestjs/passport';
     PassportModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthProvider, TokenProvider],
+  providers: [AuthService, SignInDataProvider],
 })
 export class AuthModule {}
