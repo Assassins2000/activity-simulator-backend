@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from '../auth/providers';
-import { SignInDataProvider } from '../auth/providers/data/signin/signin.data.provider';
+import { SignInDataProvider } from '@app/controllers/auth/providers';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '@app/schemas/user/user.schema';
 import { Token, TokenSchema } from '@app/schemas/token/token.schema';
