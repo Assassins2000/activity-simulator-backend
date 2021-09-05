@@ -1,6 +1,6 @@
 import BaseUserWithIdEntity from '@app/controllers/baseEntities/baseUserWithId.entity';
 
-export default class LoginResponseEntity{
+export default class LoginResponseEntity {
   token!: string;
   user!: BaseUserWithIdEntity;
 

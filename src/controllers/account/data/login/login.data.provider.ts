@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '@app/schemas/user/user.schema';
-import { Token, TokenDocument } from '@app/schemas/token/token.schema';
+import { User, UserDocument } from '@app/schemas/user.schema';
+import { Token, TokenDocument } from '@app/schemas/token.schema';
 import { Model } from 'mongoose';
 import { DUser } from '@app/domains/models/user.model';
-import { ClassicTokenSignInDataProvider } from '@app/domains/auth/classic-token/classic-token.signin.data.provider';
+import { ClassicTokenLoginDataProvider } from '@app/domains/account/classicToken.login.data.provider';
 
 @Injectable()
-export class SignInDataProvider implements ClassicTokenSignInDataProvider {
+export class LoginDataProvider implements ClassicTokenLoginDataProvider {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
@@ -23,7 +23,7 @@ export class SignInDataProvider implements ClassicTokenSignInDataProvider {
     return new DUser(user._id.toString(), user.name, user.login, user.password);
   }
 
-  async createToken(userId: string, tokenHash: string): Promise<string> {
+  async createToken(userId: string, tokenHash?: string): Promise<string> {
     const token = new this.tokenModel({ user: userId, key: tokenHash });
     await token.save();
     return token.key;
