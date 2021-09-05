@@ -1,6 +1,6 @@
-import { DUser } from '../../models/user.model';
+import { DUser } from '../models/user.model';
 
-export interface ClassicTokenSignInDataProvider {
+export interface ClassicTokenLoginDataProvider {
   getUserByUsername(username: string): Promise<DUser | null>;
   createToken(userId: string, hashToken: string): Promise<string>;
 }
