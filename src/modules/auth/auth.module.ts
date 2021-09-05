@@ -14,4 +14,4 @@ import { Token, TokenSchema } from '@app/schemas/token.schema';
   ],
   providers: [ClassicTokenProvider, ClassicTokenDataProvider],
 })
-export class Auth1Module {}
+export class AuthModule {}
