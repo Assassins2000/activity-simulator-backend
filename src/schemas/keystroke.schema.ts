@@ -27,4 +27,4 @@ export class Keystroke {
   pressedAt!: Date;
 }
 
-export const TokenSchema = SchemaFactory.createForClass(Keystroke);
+export const KeystrokeSchema = SchemaFactory.createForClass(Keystroke);
