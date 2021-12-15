@@ -21,8 +21,8 @@ enum AccountServiceErrorCode {
 @Injectable()
 export class AccountService {
   constructor(
-    @Inject(LoginDataProvider.name) private readonly signInDataProvider: ClassicTokenLoginDataProvider,
-    @Inject(SignupDataProvider.name) private readonly signupDataProvider: ClassicTokenSignupDataProvider,
+    @Inject(LoginDataProvider) private readonly signInDataProvider: ClassicTokenLoginDataProvider,
+    @Inject(SignupDataProvider) private readonly signupDataProvider: ClassicTokenSignupDataProvider,
   ) {}
 
   public async validateUser(data: LoginDto): Promise<LoginResponseEntity> {
