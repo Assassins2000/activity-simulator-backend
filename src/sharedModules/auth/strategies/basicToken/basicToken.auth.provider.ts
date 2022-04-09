@@ -1,7 +1,7 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Strategy } from 'passport-http-bearer';
 import { PassportStrategy } from '@nestjs/passport';
-import BasicTokenManagerDataProvider from './basicToken.manager.data.provider';
+import { BasicTokenManagerDataProvider } from './basicToken.manager.data.provider';
 import { BasicTokenManagerPort } from '@app/domains/account/auth/strategies/basicToken.manager.port';
 import { DUser } from '@app/domains/models/user.model';
 
