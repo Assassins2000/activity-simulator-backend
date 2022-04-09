@@ -1,21 +1,22 @@
 import {
-  Get,
-  Request,
-  Post,
-  Body,
-  UseInterceptors,
-  UseGuards,
-  ClassSerializerInterceptor,
   BadRequestException,
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { Controller } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AccountService, AccountServiceError } from './account.service';
 import { LoginDto } from './dto/login.dto';
-import { SignupDto } from './dto/signup.dto';
+import { RegisterDto } from './dto/registerDto';
 import LoginResponseEntity from './entities/loginReponseEntity';
-import BaseUserWithIdEntity from '@app/controllers/baseEntities/baseUserWithId.entity';
+import BaseUserWithIdEntity from '@app/modules/baseEntities/baseUserWithId.entity';
 import { DUser } from '@app/domains/models/user.model';
+import { accountRoutingManager, Components } from './router';
 
 class UserWithSuchUsernameExistException extends BadRequestException {
   constructor(message: string) {
@@ -23,25 +24,25 @@ class UserWithSuchUsernameExistException extends BadRequestException {
   }
 }
 
-@Controller('auth')
+@Controller(accountRoutingManager.basePath)
 export class AccountController {
   constructor(private readonly authService: AccountService) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
-  @Post('/login')
+  @Post(accountRoutingManager.getSubPath(Components.Login))
   public async login(@Body() signInDto: LoginDto): Promise<LoginResponseEntity> {
     return await this.authService.validateUser(signInDto);
   }
 
   @UseGuards(AuthGuard('bearer'))
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('/whoAmI')
-  public async whoAmI(@Request() req: { user: DUser }): Promise<BaseUserWithIdEntity> {
+  @Get(accountRoutingManager.getSubPath(Components.GetMe))
+  public async getMe(@Request() req: { user: DUser }): Promise<BaseUserWithIdEntity> {
     return this.authService.getUserWithRequiredData(req.user);
   }
 
-  @Post('/signup')
-  public async signUp(@Body() signUpDto: SignupDto): Promise<boolean> {
+  @Post(accountRoutingManager.getSubPath(Components.Register))
+  public async register(@Body() signUpDto: RegisterDto): Promise<boolean> {
     const result: BaseUserWithIdEntity | AccountServiceError = await this.authService.createUser(signUpDto);
     if (!(result instanceof BaseUserWithIdEntity)) {
       throw new UserWithSuchUsernameExistException(result.message);

@@ -26,5 +26,4 @@ export class Keystroke {
   @Prop({ required: true })
   pressedAt!: Date;
 }
-
 export const KeystrokeSchema = SchemaFactory.createForClass(Keystroke);

@@ -1,8 +1,29 @@
 export class DUser {
-  constructor(private id: string, private name: string, private login: string, private password?: string) {}
+  private exist = false;
+
+  constructor(
+    private readonly name: string,
+    private readonly login: string,
+    private readonly id?: string,
+    private readonly password?: string,
+  ) {
+    if (id) {
+      this.exist = true;
+    } else {
+      this.id = 'default';
+    }
+  }
+
+  public get getName(): string {
+    return this.name;
+  }
+
+  public get getLogin(): string {
+    return this.login;
+  }
 
   public get getId(): string {
-    return this.id;
+    return <string>this.id;
   }
 
   public get getPassword(): string | null {

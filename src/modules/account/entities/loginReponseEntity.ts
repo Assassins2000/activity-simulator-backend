@@ -1,4 +1,4 @@
-import BaseUserWithIdEntity from '@app/controllers/baseEntities/baseUserWithId.entity';
+import BaseUserWithIdEntity from '@app/modules/baseEntities/baseUserWithId.entity';
 
 export default class LoginResponseEntity {
   token!: string;
