@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { DUser } from '@app/domains/models/user.model';
+import { DUser } from '@app/domains/models';
 
 export default class BaseUserWithIdEntity {
   @Exclude()

@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 import { DUser } from '@app/domains/models/user.model';
 
 @Injectable()
-export default class BasicTokenManagerDataProvider implements BasicTokenManagerPort {
+export class BasicTokenManagerDataProvider implements BasicTokenManagerPort {
   constructor(@InjectModel(Token.name) private tokenModel: Model<TokenDocument>) {}
 
   async getUserByToken(token: string): Promise<DUser> {

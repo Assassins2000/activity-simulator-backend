@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserDocument } from '@app/schemas/user.schema';
+import { User, UserDocument } from '@app/schemas';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { AccountManagerPort } from '@app/domains/account/account.manager.port';
-import { DUser } from '@app/domains/models/user.model';
+import { DUser } from '@app/domains/models';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()

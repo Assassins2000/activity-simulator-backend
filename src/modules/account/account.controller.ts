@@ -15,7 +15,7 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/registerDto';
 import LoginResponseEntity from './entities/loginReponseEntity';
 import BaseUserWithIdEntity from '@app/modules/baseEntities/baseUserWithId.entity';
-import { DUser } from '@app/domains/models/user.model';
+import { DUser } from '@app/domains/models';
 import { accountRoutingManager, Components } from './router';
 
 class UserWithSuchUsernameExistException extends BadRequestException {

@@ -1,12 +1,11 @@
 import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
-import { AccountManagerPort } from '@app/domains/account/account.manager.port';
-import { BasicTokenManagerPort } from '@app/domains/account/auth/strategies/basicToken.manager.port';
-import BasicTokenManagerDataProvider from '@app/sharedModules/auth/strategies/basicToken/basicToken.manager.data.provider';
+import { AccountManagerPort, BasicTokenManagerPort } from '@app/domains/account';
+import { BasicTokenManagerDataProvider } from '@app/sharedModules/auth';
 import { AccountManagerDataProvider } from './data/accountManager/account.manager.data.provider';
 import BaseUserWithIdEntity from '@app/modules/baseEntities/baseUserWithId.entity';
-import LoginResponseEntity from '@app/modules/account/entities/loginReponseEntity';
+import LoginResponseEntity from './entities/loginReponseEntity';
 import { LoginDto, RegisterDto } from './dto';
-import { DUser } from '@app/domains/models/user.model';
+import { DUser } from '@app/domains/models';
 import * as bcrypt from 'bcrypt';
 
 export interface AccountServiceError {

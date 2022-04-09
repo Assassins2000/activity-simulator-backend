@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { BasicTokenAuthProvider } from './strategies/basicToken/basicToken.auth.provider';
-import BasicTokenManagerDataProvider from './strategies/basicToken/basicToken.manager.data.provider';
+import { BasicTokenAuthProvider, BasicTokenManagerDataProvider } from './strategies';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '@app/schemas/user.schema';
 import { Token, TokenSchema } from '@app/schemas/token.schema';
