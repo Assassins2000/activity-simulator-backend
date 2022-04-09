@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   ClassSerializerInterceptor,
   Controller,
@@ -10,19 +9,15 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AccountService, AccountServiceError } from './account.service';
+import { AccountService } from './account.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/registerDto';
 import LoginResponseEntity from './entities/loginReponseEntity';
 import BaseUserWithIdEntity from '@app/modules/baseEntities/baseUserWithId.entity';
 import { DUser } from '@app/domains/models';
 import { accountRoutingManager, Components } from './router';
-
-class UserWithSuchUsernameExistException extends BadRequestException {
-  constructor(message: string) {
-    super(message);
-  }
-}
+import { UserWithSuchUsernameExistException } from './exceptions';
+import { AccountServiceError } from './types';
 
 @Controller(accountRoutingManager.basePath)
 export class AccountController {

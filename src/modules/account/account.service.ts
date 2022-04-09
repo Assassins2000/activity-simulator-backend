@@ -7,15 +7,8 @@ import LoginResponseEntity from './entities/loginReponseEntity';
 import { LoginDto, RegisterDto } from './dto';
 import { DUser } from '@app/domains/models';
 import * as bcrypt from 'bcrypt';
-
-export interface AccountServiceError {
-  code: AccountServiceErrorCode;
-  message: 'User with such username exists';
-}
-
-enum AccountServiceErrorCode {
-  UserWithSuchUsernameExist = 'userWithSuchUsernameExist',
-}
+import { AccountServiceErrorCode } from './constants';
+import { AccountServiceError } from './types';
 
 @Injectable()
 export class AccountService {
