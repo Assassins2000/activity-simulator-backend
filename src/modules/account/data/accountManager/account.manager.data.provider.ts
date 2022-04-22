@@ -14,7 +14,7 @@ export class AccountManagerDataProvider implements AccountManagerPort {
     const salt = await bcrypt.genSalt(3);
     const hashPassword = await bcrypt.hash(password, salt);
 
-    const userObj = new this.userModel(<User>{ name: user.getName, password: hashPassword, login: user.getLogin });
+    const userObj = new this.userModel(<User>{ name: user.name, password: hashPassword, login: user.login });
     await userObj.save();
 
     return new DUser(userObj.id, userObj.name, userObj.login);

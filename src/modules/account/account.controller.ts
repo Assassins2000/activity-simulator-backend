@@ -11,13 +11,12 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { AccountService } from './account.service';
 import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/registerDto';
-import LoginResponseEntity from './entities/loginReponseEntity';
-import BaseUserWithIdEntity from '@app/modules/baseEntities/baseUserWithId.entity';
+import { RegisterDto } from './dto/register.dto';
+import BaseUserEntity from '@app/modules/baseEntities/baseUser.entity';
 import { DUser } from '@app/domains/models';
 import { accountRoutingManager, Components } from './router';
 import { UserWithSuchUsernameExistException } from './exceptions';
-import { AccountServiceError } from './types';
+import { AccountServiceError, LoginResponse } from './types';
 
 @Controller(accountRoutingManager.basePath)
 export class AccountController {
@@ -25,21 +24,21 @@ export class AccountController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Post(accountRoutingManager.getSubPath(Components.Login))
-  public async login(@Body() signInDto: LoginDto): Promise<LoginResponseEntity> {
+  public async login(@Body() signInDto: LoginDto): Promise<LoginResponse> {
     return await this.authService.validateUser(signInDto);
   }
 
   @UseGuards(AuthGuard('bearer'))
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(accountRoutingManager.getSubPath(Components.GetMe))
-  public async getMe(@Request() req: { user: DUser }): Promise<BaseUserWithIdEntity> {
+  public async getMe(@Request() req: { user: DUser }): Promise<BaseUserEntity> {
     return this.authService.getUserWithRequiredData(req.user);
   }
 
   @Post(accountRoutingManager.getSubPath(Components.Register))
   public async register(@Body() signUpDto: RegisterDto): Promise<boolean> {
-    const result: BaseUserWithIdEntity | AccountServiceError = await this.authService.createUser(signUpDto);
-    if (!(result instanceof BaseUserWithIdEntity)) {
+    const result: BaseUserEntity | AccountServiceError = await this.authService.createUser(signUpDto);
+    if (!(result instanceof BaseUserEntity)) {
       throw new UserWithSuchUsernameExistException(result.message);
     }
     return true;

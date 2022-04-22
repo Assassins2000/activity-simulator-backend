@@ -2,13 +2,12 @@ import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { AccountManagerPort, BasicTokenManagerPort } from '@app/domains/account';
 import { BasicTokenManagerDataProvider } from '@app/sharedModules/auth';
 import { AccountManagerDataProvider } from './data/accountManager/account.manager.data.provider';
-import BaseUserWithIdEntity from '@app/modules/baseEntities/baseUserWithId.entity';
-import LoginResponseEntity from './entities/loginReponseEntity';
+import BaseUserEntity from '@app/modules/baseEntities/baseUser.entity';
 import { LoginDto, RegisterDto } from './dto';
 import { DUser } from '@app/domains/models';
 import * as bcrypt from 'bcrypt';
 import { AccountServiceErrorCode } from './constants';
-import { AccountServiceError } from './types';
+import { AccountServiceError, LoginResponse } from './types';
 
 @Injectable()
 export class AccountService {
@@ -17,16 +16,16 @@ export class AccountService {
     @Inject(BasicTokenManagerDataProvider) private readonly authManagerDataAdapter: BasicTokenManagerPort,
   ) {}
 
-  public async validateUser(data: LoginDto): Promise<LoginResponseEntity> {
+  public async validateUser(data: LoginDto): Promise<LoginResponse> {
     const { username, password } = data;
     try {
       const user: DUser = await this.validateUserByUsernameAndPassword(username, password);
       const salt = await bcrypt.genSalt(3);
       const hashToken = await bcrypt.hash(Date.now().toString(), salt);
-      return new LoginResponseEntity({
-        token: await this.authManagerDataAdapter.createToken(user.getId, hashToken),
-        user: new BaseUserWithIdEntity(user),
-      });
+      return {
+        token: await this.authManagerDataAdapter.createToken(user.id, hashToken),
+        user: new BaseUserEntity(user),
+      };
     } catch (err) {
       throw new UnauthorizedException();
     }
@@ -34,11 +33,11 @@ export class AccountService {
 
   // TODO Add the token expire time
   // eslint-disable-next-line class-methods-use-this
-  public async getUserWithRequiredData(user: DUser): Promise<BaseUserWithIdEntity> {
-    return new BaseUserWithIdEntity(user);
+  public async getUserWithRequiredData(user: DUser): Promise<BaseUserEntity> {
+    return new BaseUserEntity(user);
   }
 
-  public async createUser(data: RegisterDto): Promise<BaseUserWithIdEntity | AccountServiceError> {
+  public async createUser(data: RegisterDto): Promise<BaseUserEntity | AccountServiceError> {
     const { name, login, password } = data;
     if (await this.accountManagerDataAdapter.isUserWithUsernameExist(name)) {
       return {
@@ -47,7 +46,7 @@ export class AccountService {
       };
     }
     const user: DUser = await this.accountManagerDataAdapter.createUser(new DUser(name, login), password);
-    return new BaseUserWithIdEntity(user);
+    return new BaseUserEntity(user);
   }
 
   private async validateUserByUsernameAndPassword(username: string, password: string): Promise<DUser> {
@@ -55,7 +54,7 @@ export class AccountService {
     if (!user) {
       throw new Error('User not found');
     }
-    const isPasswordsCompare = await bcrypt.compare(password, <string>user.getPassword);
+    const isPasswordsCompare = await bcrypt.compare(password, <string>user.password);
     if (!isPasswordsCompare) {
       throw new Error('Password not compare');
     }

@@ -1,32 +1,37 @@
 export class DUser {
-  private exist = false;
+  private readonly _exist: boolean = false;
 
   constructor(
-    private readonly name: string,
-    private readonly login: string,
-    private readonly id?: string,
-    private readonly password?: string,
+    private readonly _name: string,
+    private readonly _login: string,
+    private readonly _id?: string,
+    private readonly _password?: string,
   ) {
-    if (id) {
-      this.exist = true;
+    if (_id) {
+      this._exist = true;
     } else {
-      this.id = 'default';
+      this._id = 'default';
     }
   }
 
-  public get getName(): string {
-    return this.name;
+  public get name(): string {
+    return this._name;
   }
 
-  public get getLogin(): string {
-    return this.login;
+  public get login(): string {
+    return this._login;
   }
 
-  public get getId(): string {
-    return <string>this.id;
+  public get id(): string {
+    return <string>this._id;
   }
 
-  public get getPassword(): string | null {
-    return this.password ?? null;
+  public get password(): string | null {
+    return this._password ?? null;
   }
+
+  public get exist(): boolean {
+    return this._exist;
+  }
+
 }
