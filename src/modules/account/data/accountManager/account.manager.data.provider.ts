@@ -17,7 +17,7 @@ export class AccountManagerDataProvider implements AccountManagerPort {
     const userObj = new this.userModel(<User>{ name: user.name, password: hashPassword, login: user.login });
     await userObj.save();
 
-    return new DUser(userObj.id, userObj.name, userObj.login);
+    return new DUser(userObj.name, userObj.login, userObj._id);
   }
 
   public async isUserWithUsernameExist(username: string): Promise<boolean> {
