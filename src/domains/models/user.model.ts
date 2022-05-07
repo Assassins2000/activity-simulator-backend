@@ -33,5 +33,4 @@ export class DUser {
   public get exist(): boolean {
     return this._exist;
   }
-
 }
