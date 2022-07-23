@@ -17,7 +17,7 @@ export class BasicTokenManagerDataProvider implements BasicTokenManagerPort {
       throw new Error();
     }
     const user = (tokenObject.user as unknown) as UserDocument;
-    return new DUser(user.name, user.login, user._id.toString());
+    return new DUser(user.name, user.login, '', user._id.toString());
   }
 
   async createToken(userId: string, tokenHash: string): Promise<string> {
