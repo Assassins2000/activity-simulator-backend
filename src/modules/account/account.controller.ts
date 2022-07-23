@@ -12,14 +12,14 @@ import { AuthGuard } from '@nestjs/passport';
 import { AccountService } from './account.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
-import BaseUserEntity from '@app/modules/baseEntities/baseUser.entity';
+import BaseUserEntity from '@app/sharedModules/baseEntities/baseUser.entity';
 import { DUser } from '@app/domains/models';
 import { accountRoutingManager, Components } from './router';
 import { UserWithSuchUsernameExistException } from './exceptions';
 import { AccountServiceError, LoginResponse } from './types';
 
 @Controller(accountRoutingManager.basePath)
-export class AccountController {
+export class AccountEntryController {
   constructor(private readonly authService: AccountService) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
