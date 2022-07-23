@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { AccountManagerPort, BasicTokenManagerPort } from '@app/domains/account';
 import { BasicTokenManagerDataProvider } from '@app/sharedModules/auth';
 import { AccountManagerDataProvider } from './data/accountManager/account.manager.data.provider';
-import BaseUserEntity from '@app/modules/baseEntities/baseUser.entity';
+import BaseUserEntity from '@app/sharedModules/baseEntities/baseUser.entity';
 import { LoginDto, RegisterDto } from './dto';
 import { DUser } from '@app/domains/models';
 import * as bcrypt from 'bcrypt';
