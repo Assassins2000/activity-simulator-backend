@@ -7,10 +7,10 @@ export class RoutingManager<C> {
     return `${this.routingSchema.base}/`;
   }
 
-  public getSubPath(component: C): string {
+  public getSubPath(component: C, param?: string): string {
     const sub = this.routingSchema.sub.find(s => s.component === component);
     if (sub) {
-      return sub.path;
+      return param ? `${sub.path}/:${param}` : sub.path;
     }
     throw new Error('Sub route no found');
   }
