@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AccountModule } from '@app/modules/account/account.module';
+import { CreateAndCloseSessionModule } from '@app/modules/simulatorSection';
 import { AuthModule } from '@app/sharedModules/auth/auth.module';
 import { ConfigurationModule, ConfigurationService } from '@app/configuration';
 
@@ -14,6 +15,7 @@ import { ConfigurationModule, ConfigurationService } from '@app/configuration';
       inject: [ConfigurationService],
     }),
     AccountModule,
+    CreateAndCloseSessionModule,
     AuthModule,
   ],
 })
