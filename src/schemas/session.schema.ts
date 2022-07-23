@@ -1,23 +1,23 @@
-import { Types } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { User, UserDocument } from './user.schema';
+import { User } from './user.schema';
 import { Document } from 'mongoose';
 
 export type SessionDocument = Session & Document;
 
 @Schema()
 export class Session {
-  @Prop({ type: Types.ObjectId, ref: User.name })
-  user!: UserDocument;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  public user!: mongoose.Types.ObjectId;
 
   @Prop({ required: true })
-  startDate!: Date;
+  public startDate!: Date;
 
   @Prop()
-  endDate!: Date;
+  public endDate?: Date;
 
   @Prop()
-  closing!: boolean;
+  public closing?: boolean = false;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

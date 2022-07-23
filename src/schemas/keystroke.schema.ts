@@ -1,29 +1,30 @@
 import { Types } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { User, UserDocument } from './user.schema';
-import { Key, KeyDocument } from './key.schema';
+import { Key } from './key.schema';
+import { Session } from './session.schema';
 
 export type KeystrokeDocument = Keystroke & Document;
 
 @Schema()
 export class Keystroke {
-  @Prop({ type: Types.ObjectId, ref: User.name })
-  user!: UserDocument;
-
   @Prop({ required: true })
-  type!: string;
+  public type!: string;
 
-  @Prop({ type: Types.ObjectId, ref: Key.name })
-  key!: KeyDocument;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Key.name })
+  public key!: mongoose.Types.ObjectId;
 
   @Prop()
-  coordinateX!: number;
+  public coordinateX!: number;
 
   @Prop()
-  coordinateY!: number;
+  public coordinateY!: number;
 
   @Prop({ required: true })
-  pressedAt!: Date;
+  public pressedAt!: Date;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Session.name, required: true })
+  public session!: mongoose.Types.ObjectId;
 }
 export const KeystrokeSchema = SchemaFactory.createForClass(Keystroke);

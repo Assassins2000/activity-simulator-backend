@@ -5,10 +5,10 @@ export type KeyDocument = Key & Document;
 @Schema()
 export class Key {
   @Prop({ required: true })
-  type!: string;
+  public type!: string;
 
   @Prop({ required: true })
-  name!: string;
+  public name!: string;
 }
 
 export const KeySchema = SchemaFactory.createForClass(Key);
