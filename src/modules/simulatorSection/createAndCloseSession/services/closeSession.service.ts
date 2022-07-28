@@ -2,6 +2,8 @@ import { Injectable, Inject } from '@nestjs/common';
 import { BaseService } from '@app/sharedModules/base/base.service';
 import { CloseSessionManagerPort } from '@app/domains/simulator/session/closeSession.manager.port';
 import { CloseSessionManagerDataProvider } from '../data';
+import { ServiceErrorCode } from '../constants';
+import { BaseServiceError } from '@app/sharedModules/base/baseServiceError.interface';
 
 @Injectable()
 export class CloseSessionService extends BaseService {
@@ -11,12 +13,15 @@ export class CloseSessionService extends BaseService {
     super();
   }
 
-  public async run(sessionId: string): Promise<boolean> {
+  public async run(sessionId: string): Promise<boolean | BaseServiceError<ServiceErrorCode>> {
     const dateTimeLastKeystroke: Date | null = await this.closeSessionDataProvider.findDateTimeLastKeyStrokeBySessionId(
       sessionId,
     );
     if (!dateTimeLastKeystroke) {
-      throw Error();
+      return {
+        code: ServiceErrorCode.KeystrokeNotFound,
+        message: 'No clicks have been saved in this session',
+      };
     }
     return this.closeSessionDataProvider.closeSession(dateTimeLastKeystroke, sessionId);
   }
