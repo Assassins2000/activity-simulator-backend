@@ -8,17 +8,18 @@ export default class BaseUserEntity {
   @Exclude()
   protected readonly exist: boolean;
 
-  protected readonly id: string;
+  @Exclude()
+  private readonly id: string;
 
   protected readonly login: string;
 
   protected readonly name: string;
 
   constructor(partial: DUser) {
+    this.id = partial.id;
     this.password = partial.password || '';
     this.exist = partial.exist;
     this.name = partial.name;
-    this.id = partial.id;
     this.login = partial.login;
   }
 }
