@@ -4,10 +4,20 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { AccountManagerPort } from '@app/domains/account/account.manager.port';
 import { DUser } from '@app/domains/models';
+import { UserMapper } from '../../../mappers/user.mapper';
 import * as bcrypt from 'bcrypt';
+import { SimpleOptionsEnum } from '@app/sharedModules';
 
 @Injectable()
 export class AccountManagerDataProvider implements AccountManagerPort {
+  private readonly newDUserKeysConfig = {
+    password: { options: [SimpleOptionsEnum.HideField] },
+  };
+
+  private readonly getUserKeysConfig = {
+    __v: { options: [SimpleOptionsEnum.HideField] },
+  };
+
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
   public async createUser(user: DUser, password: string): Promise<DUser> {
@@ -17,7 +27,7 @@ export class AccountManagerDataProvider implements AccountManagerPort {
     const userObj = new this.userModel(<User>{ name: user.name, password: hashPassword, login: user.login });
     await userObj.save();
 
-    return new DUser(userObj.name, userObj.login, userObj._id);
+    return new UserMapper(userObj.toObject(), this.newDUserKeysConfig).toDomainModel();
   }
 
   public async isUserWithUsernameExist(username: string): Promise<boolean> {
@@ -29,6 +39,6 @@ export class AccountManagerDataProvider implements AccountManagerPort {
     if (!user) {
       return null;
     }
-    return new DUser(user.name, user.login, user._id.toString(), user.password);
+    return new UserMapper(user, this.getUserKeysConfig).toDomainModel();
   }
 }
