@@ -1,15 +1,5 @@
-import { DUser } from '@app/domains/models';
 import { DBaseModel } from '@app/domains/models/base.model';
-
-interface KeyConfig {
-  readonly hideValue?: boolean;
-  readonly hideField?: boolean;
-  formate?(fieldValue: unknown): unknown;
-}
-
-export interface KeysConfig {
-  readonly [name: string]: KeyConfig;
-}
+import { KeysConfig, SimpleOptionsEnum } from './types';
 
 export abstract class BaseMapper<D_MODEL extends DBaseModel> {
   protected readonly originalObject: Record<string, unknown>;
@@ -25,13 +15,20 @@ export abstract class BaseMapper<D_MODEL extends DBaseModel> {
     if (keysConfig) {
       Object.entries(originalObject).forEach(([key, value]) => {
         if (keysConfig[key]) {
-          if (keysConfig[key].hideValue) {
-            this.originalObject[key] = this.hideValueField(value);
-          } else if (keysConfig[key].hideField) {
-            delete this.originalObject[key];
-          } else if (keysConfig[key].formate) {
-            this.originalObject[key] = (keysConfig[key].formate as (fieldValue: unknown) => unknown)(value);
-          }
+          const options = keysConfig[key].options;
+          options?.forEach(optKey => {
+            switch (optKey) {
+              case SimpleOptionsEnum.HideValue:
+                this.originalObject[key] = this.hideValueField(value);
+                break;
+              case SimpleOptionsEnum.HideField:
+                delete this.originalObject[key];
+                break;
+              default:
+                console.log();
+            }
+          });
+          this.originalObject[key] = keysConfig[key].formate?.(value);
         }
       });
     } else {
