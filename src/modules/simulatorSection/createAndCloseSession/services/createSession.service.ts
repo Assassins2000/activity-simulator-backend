@@ -2,8 +2,8 @@ import { Injectable, Inject } from '@nestjs/common';
 import { CreateSessionManagerPort } from '@app/domains/simulator/session/createSession.manager.port';
 import { DSession, DUser } from '@app/domains/models';
 import { BaseService } from '@app/sharedModules/base/base.service';
-import { ServiceErrorCode } from '../constants';
-import { BaseServiceError } from '@app/sharedModules/base/baseServiceError.interface';
+import { ServiceErrorCode } from '../../constants/serviceErrorCode.enum';
+import { BaseServiceError } from '@app/sharedModules/base/types/baseServiceError.interface';
 import { CreateSessionManagerDataProvider } from '../data';
 
 @Injectable()

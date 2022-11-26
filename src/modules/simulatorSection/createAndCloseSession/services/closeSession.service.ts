@@ -2,8 +2,8 @@ import { Injectable, Inject } from '@nestjs/common';
 import { BaseService } from '@app/sharedModules/base/base.service';
 import { CloseSessionManagerPort } from '@app/domains/simulator/session/closeSession.manager.port';
 import { CloseSessionManagerDataProvider } from '../data';
-import { ServiceErrorCode } from '../constants';
-import { BaseServiceError } from '@app/sharedModules/base/baseServiceError.interface';
+import { ServiceErrorCode } from '../../constants/serviceErrorCode.enum';
+import { BaseServiceError } from '@app/sharedModules/base/types/baseServiceError.interface';
 
 @Injectable()
 export class CloseSessionService extends BaseService {
