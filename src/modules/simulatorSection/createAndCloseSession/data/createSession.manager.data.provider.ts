@@ -12,7 +12,11 @@ export class CreateSessionManagerDataProvider implements CreateSessionManagerPor
 
   public async isUserHasActiveSessions(user: DUser): Promise<boolean> {
     const userObjectId = new mongoose.Types.ObjectId(user.id);
-    return this.sessionModel.exists({ user: userObjectId, closing: false });
+    const isUserExists: { _id: string } | null = await this.sessionModel.exists({
+      user: userObjectId,
+      closing: false,
+    });
+    return !!isUserExists;
   }
 
   public async createSession(user: DUser): Promise<DSession> {

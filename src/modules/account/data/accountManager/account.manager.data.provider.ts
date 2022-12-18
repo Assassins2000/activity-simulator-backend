@@ -31,7 +31,8 @@ export class AccountManagerDataProvider implements AccountManagerPort {
   }
 
   public async isUserWithUsernameExist(username: string): Promise<boolean> {
-    return this.userModel.exists({ name: username });
+    const isUserExist: { _id: string } | null = await this.userModel.exists({ name: username });
+    return !!isUserExist;
   }
 
   public async getUserByUsername(username: string): Promise<DUser | null> {
